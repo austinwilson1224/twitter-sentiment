@@ -4,10 +4,6 @@ import tweepy
 from keys import consumer_key, consumer_secret, access_token, access_token_secret
 from model import setup, apply_prediction
 
-# print(consumer_key, consumer_secret, access_token, access_token_secret)
-# authorization
-
-
 try:
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
@@ -41,12 +37,10 @@ app = Flask(__name__)
 def home():
     if request.method == "POST":
         content = request.form['content']
-        new_status = api.update_status(content)
         print(content)
     tweet_data = []
     try:
         tweets = api.user_timeline(name)
-        
     except:
         tweets = None
     sentiments = []
@@ -70,24 +64,18 @@ def home():
 
 @app.route("/tweet:<id>", methods=["GET", "POST"])
 def get_single_tweet(id):
-
-    sentiment = None
     try:
-        #print(id)
         tweet = [api.get_status(id)]
-        #print(tweet)
         tweet = [{
             "text": tweet[0].text,
             "id": id,
             "sentiment": apply_prediction(tweet[0].text)
         }]
         print(tweet)
-
     except:
         tweet = None
         print('error getting tweet!!!!')
 
-    # sentiment = apply_prediction(tweet[0].text)
     return render_template("index.html", tweets=tweet)
 
 

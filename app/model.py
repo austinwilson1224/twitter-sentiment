@@ -1,8 +1,7 @@
-from keras.preprocessing.text import Tokenizer
-from keras.preprocessing.sequence import pad_sequences
-from sklearn.model_selection import train_test_split
-from keras.layers import Dense, Embedding, LSTM, SpatialDropout1D
-from keras.models import Sequential
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.layers import Dense, Embedding, LSTM, SpatialDropout1D
+from tensorflow.keras.models import Sequential
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
@@ -10,7 +9,6 @@ import nltk
 import re
 import numpy as np
 import pandas as pd
-import tensorflow as tf
 
 data = pd.read_csv('twitter_training.csv', names=[
                    "Tweet_ID", "Entity", "Sentiment", "Text"])
@@ -62,15 +60,9 @@ model.compile(
     metrics=['accuracy']
 )
 
-# Y = pd.get_dummies(data.Sentiment).values
-# X_train, X_test, Y_train, Y_test = train_test_split(
-#     X, Y, test_size=0.33, random_state=42)
-
 
 def setup():
     model.load_weights('weights.hdf5')
-    # model.fit(X_train, Y_train, epochs=10, batch_size=32,
-    #           callbacks=[tf.keras.callbacks.EarlyStopping(monitor='accuracy', patience=4)], verbose=1)
 
 
 def apply_prediction(twt):
